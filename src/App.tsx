@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Text } from 'ink';
 import { Difficulty, QuizMode } from './types/index.js';
+import { LanguageProvider } from './contexts/LanguageContext.js';
 import WelcomeScreen from './components/WelcomeScreen.js';
 import DifficultySelection from './components/DifficultySelection.js';
 import ModeSelection from './components/ModeSelection.js';
@@ -45,17 +46,21 @@ const App = () => {
   };
 
   return (
-    <Box flexDirection="column" padding={1}>
-      {currentScreen === 'welcome' && <WelcomeScreen onStart={handleStart} />}
-      {currentScreen === 'difficulty' && <DifficultySelection onSelect={handleDifficultySelect} />}
-      {currentScreen === 'mode' && <ModeSelection onSelect={handleModeSelect} />}
-      {currentScreen === 'quiz' && difficulty && mode && (
-        <Quiz difficulty={difficulty} mode={mode} onComplete={handleQuizComplete} />
-      )}
-      {currentScreen === 'result' && (
-        <Result score={score} total={totalQuestions} onRestart={handleRestart} />
-      )}
-    </Box>
+    <LanguageProvider>
+      <Box flexDirection="column" padding={1}>
+        {currentScreen === 'welcome' && <WelcomeScreen onStart={handleStart} />}
+        {currentScreen === 'difficulty' && (
+          <DifficultySelection onSelect={handleDifficultySelect} />
+        )}
+        {currentScreen === 'mode' && <ModeSelection onSelect={handleModeSelect} />}
+        {currentScreen === 'quiz' && difficulty && mode && (
+          <Quiz difficulty={difficulty} mode={mode} onComplete={handleQuizComplete} />
+        )}
+        {currentScreen === 'result' && (
+          <Result score={score} total={totalQuestions} onRestart={handleRestart} />
+        )}
+      </Box>
+    </LanguageProvider>
   );
 };
 
