@@ -4,21 +4,29 @@ export const statusCodes: StatusCode[] = [
   // Beginner level - Daily codes
   { code: 200, meaning: 'OK', description: 'The request has succeeded', difficulty: 'beginner' },
   { code: 201, meaning: 'Created', description: 'The request has been fulfilled and resulted in a new resource being created', difficulty: 'beginner' },
-  { code: 404, meaning: 'Not Found', description: 'The server has not found anything matching the Request-URI', difficulty: 'beginner' },
+  { code: 301, meaning: 'Moved Permanently', description: 'The requested resource has been assigned a new permanent URI', difficulty: 'beginner' },
+  { code: 302, meaning: 'Found', description: 'The requested resource resides temporarily under a different URI', difficulty: 'beginner' },
   { code: 400, meaning: 'Bad Request', description: 'The request could not be understood by the server due to malformed syntax', difficulty: 'beginner' },
+  { code: 401, meaning: 'Unauthorized', description: 'The request requires user authentication', difficulty: 'beginner' },
+  { code: 403, meaning: 'Forbidden', description: 'The server understood the request, but is refusing to fulfill it', difficulty: 'beginner' },
+  { code: 404, meaning: 'Not Found', description: 'The server has not found anything matching the Request-URI', difficulty: 'beginner' },
   { code: 500, meaning: 'Internal Server Error', description: 'The server encountered an unexpected condition', difficulty: 'beginner' },
+  { code: 503, meaning: 'Service Unavailable', description: 'The server is currently unable to handle the request', difficulty: 'beginner' },
   
   // Intermediate level - Developer codes
+  { code: 202, meaning: 'Accepted', description: 'The request has been accepted for processing, but the processing has not been completed', difficulty: 'intermediate' },
   { code: 204, meaning: 'No Content', description: 'The server has fulfilled the request but does not need to return an entity-body', difficulty: 'intermediate' },
-  { code: 301, meaning: 'Moved Permanently', description: 'The requested resource has been assigned a new permanent URI', difficulty: 'intermediate' },
-  { code: 302, meaning: 'Found', description: 'The requested resource resides temporarily under a different URI', difficulty: 'intermediate' },
+  { code: 206, meaning: 'Partial Content', description: 'The server has fulfilled the partial GET request for the resource', difficulty: 'intermediate' },
   { code: 304, meaning: 'Not Modified', description: 'The resource has not been modified since the last request', difficulty: 'intermediate' },
-  { code: 401, meaning: 'Unauthorized', description: 'The request requires user authentication', difficulty: 'intermediate' },
-  { code: 403, meaning: 'Forbidden', description: 'The server understood the request, but is refusing to fulfill it', difficulty: 'intermediate' },
+  { code: 307, meaning: 'Temporary Redirect', description: 'The requested resource resides temporarily under a different URI', difficulty: 'intermediate' },
+  { code: 308, meaning: 'Permanent Redirect', description: 'The target resource has been assigned a new permanent URI', difficulty: 'intermediate' },
   { code: 405, meaning: 'Method Not Allowed', description: 'The method specified in the Request-Line is not allowed', difficulty: 'intermediate' },
+  { code: 408, meaning: 'Request Timeout', description: 'The client did not produce a request within the time that the server was prepared to wait', difficulty: 'intermediate' },
   { code: 409, meaning: 'Conflict', description: 'The request could not be completed due to a conflict with the current state of the resource', difficulty: 'intermediate' },
+  { code: 422, meaning: 'Unprocessable Entity', description: 'The request was well-formed but was unable to be followed due to semantic errors', difficulty: 'intermediate' },
   { code: 429, meaning: 'Too Many Requests', description: 'The user has sent too many requests in a given amount of time', difficulty: 'intermediate' },
-  { code: 503, meaning: 'Service Unavailable', description: 'The server is currently unable to handle the request', difficulty: 'intermediate' },
+  { code: 502, meaning: 'Bad Gateway', description: 'The server received an invalid response from the upstream server', difficulty: 'intermediate' },
+  { code: 504, meaning: 'Gateway Timeout', description: 'The server did not receive a timely response from the upstream server', difficulty: 'intermediate' },
   
   // Advanced level - Rare codes
   { code: 100, meaning: 'Continue', description: 'The client should continue with its request', difficulty: 'advanced' },
@@ -50,7 +58,7 @@ export const getStatusCodesByDifficulty = (difficulty: 'beginner' | 'intermediat
 export const getQuestionCount = (difficulty: 'beginner' | 'intermediate' | 'advanced'): number => {
   switch (difficulty) {
     case 'beginner':
-      return 5;
+      return 10;
     case 'intermediate':
       return 10;
     case 'advanced':
