@@ -9,9 +9,11 @@ Interactive HTTP status code quiz for your terminal, built with [Ink](https://gi
 
 - 🎯 Three difficulty levels: Beginner, Intermediate, and Advanced
 - 🔄 Two quiz modes: Code→Meaning and Meaning→Code
+- 🌐 **Bilingual support**: English and Japanese with instant language switching
 - 📊 Score tracking with rank system (S/A/B/C/D)
-- 💡 Detailed explanations for each status code
+- 💡 Detailed explanations for each status code in both languages
 - 🎨 Beautiful terminal UI with color-coded feedback
+- ⚡ Real-time language switching with Shift+Tab
 
 ## Installation
 
@@ -26,6 +28,13 @@ Simply run:
 ```bash
 httpiq
 ```
+
+### Language Switching
+
+- **Default language**: English
+- **Switch language**: Press `Shift+Tab` at any time before starting a quiz
+- **Language persistence**: Language setting is not saved between sessions (always starts in English)
+- **Available languages**: English (EN) and Japanese (日本語)
 
 ## Quiz Modes
 
