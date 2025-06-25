@@ -1,0 +1,45 @@
+{
+  "name": "httpiq",
+  "version": "1.0.0",
+  "description": "Interactive HTTP status code quiz for your terminal",
+  "main": "dist/index.js",
+  "bin": {
+    "httpiq": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.tsx",
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "http",
+    "status-code",
+    "quiz",
+    "cli",
+    "terminal",
+    "education",
+    "interactive"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "ink": "^6.0.0",
+    "ink-select-input": "^6.2.0",
+    "react": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.4",
+    "@types/react": "^19.1.8",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
