@@ -1,5 +1,10 @@
 import { StatusCode, Question, QuizMode, Difficulty } from '../types/index.js';
-import { getStatusCodesByDifficulty, getQuestionCount, getQuestionsForDifficulty, statusCodes } from '../data/statusCodes.js';
+import {
+  getStatusCodesByDifficulty,
+  getQuestionCount,
+  getQuestionsForDifficulty,
+  statusCodes,
+} from '../data/statusCodes.js';
 
 export const shuffle = <T>(array: T[]): T[] => {
   const arr = [...array];
@@ -13,7 +18,7 @@ export const shuffle = <T>(array: T[]): T[] => {
 export const generateQuestions = (difficulty: Difficulty, mode: QuizMode): Question[] => {
   const selectedCodes = getQuestionsForDifficulty(difficulty);
   const allCodes = statusCodes; // 選択肢生成用に全ステータスコードを使用
-  
+
   return selectedCodes.map(statusCode => {
     if (mode === 'codeToMeaning') {
       return generateCodeToMeaningQuestion(statusCode, allCodes);
@@ -23,32 +28,38 @@ export const generateQuestions = (difficulty: Difficulty, mode: QuizMode): Quest
   });
 };
 
-const generateCodeToMeaningQuestion = (statusCode: StatusCode, allCodes: StatusCode[]): Question => {
+const generateCodeToMeaningQuestion = (
+  statusCode: StatusCode,
+  allCodes: StatusCode[]
+): Question => {
   const correctAnswer = statusCode.meaning;
   const otherOptions = allCodes
     .filter(code => code.code !== statusCode.code)
     .map(code => code.meaning);
-  
+
   const options = shuffle([correctAnswer, ...shuffle(otherOptions).slice(0, 3)]);
-  
+
   return {
     statusCode,
     options,
-    correctAnswer
+    correctAnswer,
   };
 };
 
-const generateMeaningToCodeQuestion = (statusCode: StatusCode, allCodes: StatusCode[]): Question => {
+const generateMeaningToCodeQuestion = (
+  statusCode: StatusCode,
+  allCodes: StatusCode[]
+): Question => {
   const correctAnswer = statusCode.code.toString();
   const otherOptions = allCodes
     .filter(code => code.code !== statusCode.code)
     .map(code => code.code.toString());
-  
+
   const options = shuffle([correctAnswer, ...shuffle(otherOptions).slice(0, 3)]);
-  
+
   return {
     statusCode,
     options,
-    correctAnswer
+    correctAnswer,
   };
 };
