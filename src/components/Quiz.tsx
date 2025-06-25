@@ -4,6 +4,8 @@ import SelectInput from 'ink-select-input';
 import { Difficulty, QuizMode, Question } from '../types/index.js';
 import { generateQuestions } from '../utils/quiz.js';
 import { getQuestionCount } from '../data/statusCodes.js';
+import { useLanguage } from '../contexts/LanguageContext.js';
+import { useLanguageToggle } from '../hooks/useLanguageToggle.js';
 
 interface Props {
   difficulty: Difficulty;
@@ -12,6 +14,9 @@ interface Props {
 }
 
 const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
+  const { t } = useLanguage();
+  useLanguageToggle(false); // Disable language toggle during quiz
+
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -24,7 +29,7 @@ const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
   }, [difficulty, mode]);
 
   if (questions.length === 0) {
-    return <Text>Loading questions...</Text>;
+    return <Text>{t.quiz.loading}</Text>;
   }
 
   const currentQuestion = questions[currentIndex];
@@ -33,13 +38,13 @@ const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
   const handleAnswer = (item: { value: string }) => {
     const answer = item.value;
     setUserAnswer(answer);
-    
+
     if (answer === currentQuestion.correctAnswer) {
       setScore(score + 1);
     }
-    
+
     setShowFeedback(true);
-    
+
     setTimeout(() => {
       if (currentIndex < questions.length - 1) {
         setCurrentIndex(currentIndex + 1);
@@ -53,15 +58,15 @@ const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
 
   const getQuestionText = () => {
     if (mode === 'codeToMeaning') {
-      return `What does status code ${currentQuestion.statusCode.code} mean?`;
+      return `${t.quiz.whatDoes} ${currentQuestion.statusCode.code} ${t.quiz.mean}`;
     } else {
-      return `What is the status code for "${currentQuestion.statusCode.meaning}"?`;
+      return `${t.quiz.whatsTheCode} "${currentQuestion.statusCode.meaning}"?`;
     }
   };
 
   const items = currentQuestion.options.map(option => ({
     label: option,
-    value: option
+    value: option,
   }));
 
   return (
@@ -69,16 +74,19 @@ const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
       <Box borderStyle="single" borderColor="white" paddingX={2} paddingY={1}>
         <Box flexDirection="column" width="100%">
           <Box justifyContent="space-between" marginBottom={1}>
-            <Text>Question {currentIndex + 1}/{totalQuestions}</Text>
-            <Text>Score: {score}</Text>
+            <Text>
+              {t.quiz.question} {currentIndex + 1}/{totalQuestions}
+            </Text>
+            <Text>
+              {t.quiz.score}: {score}
+            </Text>
           </Box>
 
           <Box borderStyle="double" borderColor="yellow" paddingX={2} paddingY={1} marginBottom={1}>
             <Text bold color="yellow">
-              {mode === 'codeToMeaning' 
+              {mode === 'codeToMeaning'
                 ? `Status: ${currentQuestion.statusCode.code}`
-                : currentQuestion.statusCode.meaning
-              }
+                : currentQuestion.statusCode.meaning}
             </Text>
           </Box>
 
@@ -86,25 +94,27 @@ const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
             <Text>{getQuestionText()}</Text>
           </Box>
 
-          {!showFeedback && (
-            <SelectInput items={items} onSelect={handleAnswer} />
-          )}
+          {!showFeedback && <SelectInput items={items} onSelect={handleAnswer} />}
 
           {showFeedback && (
             <Box flexDirection="column">
               <Box marginBottom={1}>
                 {userAnswer === currentQuestion.correctAnswer ? (
-                  <Text color="green" bold>✓ Correct!</Text>
+                  <Text color="green" bold>
+                    {t.quiz.correct}
+                  </Text>
                 ) : (
                   <Box flexDirection="column">
-                    <Text color="red" bold>✗ Incorrect</Text>
+                    <Text color="red" bold>
+                      {t.quiz.incorrect}
+                    </Text>
                     <Text color="yellow">
-                      Correct answer: {currentQuestion.correctAnswer}
+                      {t.quiz.correctAnswer} {currentQuestion.correctAnswer}
                     </Text>
                   </Box>
                 )}
               </Box>
-              
+
               <Box borderStyle="single" borderColor="cyan" padding={1}>
                 <Text color="cyan">{currentQuestion.statusCode.description}</Text>
               </Box>
@@ -113,7 +123,7 @@ const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
 
           {!showFeedback && (
             <Box marginTop={1}>
-              <Text dimColor>[↑/↓] Select  [Enter] Confirm</Text>
+              <Text dimColor>{t.quiz.controls}</Text>
             </Box>
           )}
         </Box>

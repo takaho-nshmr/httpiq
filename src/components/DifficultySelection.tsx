@@ -2,25 +2,31 @@ import React from 'react';
 import { Box, Text } from 'ink';
 import SelectInput from 'ink-select-input';
 import { Difficulty } from '../types/index.js';
+import { useLanguage } from '../contexts/LanguageContext.js';
+import { useLanguageToggle } from '../hooks/useLanguageToggle.js';
+import { LanguageIndicator } from './LanguageIndicator.js';
 
 interface Props {
   onSelect: (difficulty: Difficulty) => void;
 }
 
 const DifficultySelection: React.FC<Props> = ({ onSelect }) => {
+  const { t } = useLanguage();
+  useLanguageToggle();
+
   const items = [
-    { 
-      label: 'Beginner (5 questions) - Daily status codes', 
-      value: 'beginner' as Difficulty 
+    {
+      label: t.difficulty.beginner,
+      value: 'beginner' as Difficulty,
     },
-    { 
-      label: 'Intermediate (10 questions) - Developer codes', 
-      value: 'intermediate' as Difficulty 
+    {
+      label: t.difficulty.intermediate,
+      value: 'intermediate' as Difficulty,
     },
-    { 
-      label: 'Advanced (20 questions) - Rare codes', 
-      value: 'advanced' as Difficulty 
-    }
+    {
+      label: t.difficulty.advanced,
+      value: 'advanced' as Difficulty,
+    },
   ];
 
   const handleSelect = (item: { value: Difficulty }) => {
@@ -31,15 +37,17 @@ const DifficultySelection: React.FC<Props> = ({ onSelect }) => {
     <Box flexDirection="column" alignItems="center">
       <Box borderStyle="round" borderColor="cyan" padding={1} marginBottom={1}>
         <Text color="cyan" bold>
-          Select Difficulty
+          {t.difficulty.title}
         </Text>
       </Box>
 
       <Box marginBottom={1}>
-        <Text>Choose your challenge level:</Text>
+        <Text>{t.difficulty.subtitle}</Text>
       </Box>
 
       <SelectInput items={items} onSelect={handleSelect} />
+
+      <LanguageIndicator />
     </Box>
   );
 };
