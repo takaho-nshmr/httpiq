@@ -5,6 +5,7 @@ export interface StatusCode {
   code: number;
   meaning: string;
   description: string;
+  descriptionJa: string;
   difficulty: Difficulty;
 }
 

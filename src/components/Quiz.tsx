@@ -14,7 +14,7 @@ interface Props {
 }
 
 const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   useLanguageToggle(false); // Disable language toggle during quiz
 
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -116,7 +116,11 @@ const Quiz: React.FC<Props> = ({ difficulty, mode, onComplete }) => {
               </Box>
 
               <Box borderStyle="single" borderColor="cyan" padding={1}>
-                <Text color="cyan">{currentQuestion.statusCode.description}</Text>
+                <Text color="cyan">
+                  {language === 'ja'
+                    ? currentQuestion.statusCode.descriptionJa
+                    : currentQuestion.statusCode.description}
+                </Text>
               </Box>
             </Box>
           )}
