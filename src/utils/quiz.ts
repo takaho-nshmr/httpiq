@@ -1,5 +1,5 @@
 import { StatusCode, Question, QuizMode, Difficulty } from '../types/index.js';
-import { getStatusCodesByDifficulty, getQuestionCount } from '../data/statusCodes.js';
+import { getStatusCodesByDifficulty, getQuestionCount, getQuestionsForDifficulty, statusCodes } from '../data/statusCodes.js';
 
 export const shuffle = <T>(array: T[]): T[] => {
   const arr = [...array];
@@ -11,9 +11,8 @@ export const shuffle = <T>(array: T[]): T[] => {
 };
 
 export const generateQuestions = (difficulty: Difficulty, mode: QuizMode): Question[] => {
-  const allCodes = getStatusCodesByDifficulty(difficulty);
-  const questionCount = getQuestionCount(difficulty);
-  const selectedCodes = shuffle(allCodes).slice(0, questionCount);
+  const selectedCodes = getQuestionsForDifficulty(difficulty);
+  const allCodes = statusCodes; // 選択肢生成用に全ステータスコードを使用
   
   return selectedCodes.map(statusCode => {
     if (mode === 'codeToMeaning') {

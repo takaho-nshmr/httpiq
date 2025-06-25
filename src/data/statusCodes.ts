@@ -58,10 +58,56 @@ export const getStatusCodesByDifficulty = (difficulty: 'beginner' | 'intermediat
 export const getQuestionCount = (difficulty: 'beginner' | 'intermediate' | 'advanced'): number => {
   switch (difficulty) {
     case 'beginner':
-      return 10;
+      return 5;
     case 'intermediate':
       return 10;
     case 'advanced':
       return 20;
+  }
+};
+
+export const getQuestionsForDifficulty = (difficulty: 'beginner' | 'intermediate' | 'advanced'): StatusCode[] => {
+  const beginnerCodes = statusCodes.filter(code => code.difficulty === 'beginner');
+  const intermediateCodes = statusCodes.filter(code => code.difficulty === 'intermediate');  
+  const advancedCodes = statusCodes.filter(code => code.difficulty === 'advanced');
+  
+  const shuffle = (array: StatusCode[]): StatusCode[] => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  switch (difficulty) {
+    case 'beginner':
+      // 初級問題から5問ランダム選択
+      return shuffle(beginnerCodes).slice(0, 5);
+      
+    case 'intermediate':
+      // 初級問題から最大5問、中級問題から残りを選択して合計10問
+      const shuffledBeginner = shuffle(beginnerCodes);
+      const shuffledIntermediate = shuffle(intermediateCodes);
+      const beginnerCount = Math.min(5, shuffledBeginner.length);
+      const intermediateCount = 10 - beginnerCount;
+      
+      return [
+        ...shuffledBeginner.slice(0, beginnerCount),
+        ...shuffledIntermediate.slice(0, intermediateCount)
+      ];
+      
+    case 'advanced':
+      // 初級・中級問題から合計最大10問、上級問題から残りを選択して合計20問
+      const allBeginnerIntermediate = [...beginnerCodes, ...intermediateCodes];
+      const shuffledBeginnerIntermediate = shuffle(allBeginnerIntermediate);
+      const shuffledAdvanced = shuffle(advancedCodes);
+      const beginnerIntermediateCount = Math.min(10, shuffledBeginnerIntermediate.length);
+      const advancedCount = 20 - beginnerIntermediateCount;
+      
+      return [
+        ...shuffledBeginnerIntermediate.slice(0, beginnerIntermediateCount),
+        ...shuffledAdvanced.slice(0, advancedCount)
+      ];
   }
 };
