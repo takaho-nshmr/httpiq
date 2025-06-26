@@ -1,15 +1,21 @@
 import React from 'react';
 import { Box, Text } from 'ink';
 import SelectInput from 'ink-select-input';
+import { useLanguage } from '../contexts/LanguageContext.js';
+import { useLanguageToggle } from '../hooks/useLanguageToggle.js';
+import { LanguageIndicator } from './LanguageIndicator.js';
 
 interface Props {
   onStart: () => void;
 }
 
 const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
+  const { t } = useLanguage();
+  useLanguageToggle();
+
   const items = [
-    { label: 'Start Quiz', value: 'start' },
-    { label: 'Exit', value: 'exit' }
+    { label: t.welcome.startQuiz, value: 'start' },
+    { label: t.welcome.exit, value: 'exit' },
   ];
 
   const handleSelect = (item: { value: string }) => {
@@ -24,15 +30,17 @@ const WelcomeScreen: React.FC<Props> = ({ onStart }) => {
     <Box flexDirection="column" alignItems="center">
       <Box borderStyle="round" borderColor="green" padding={1} marginBottom={1}>
         <Text color="green" bold>
-          HTTP Status Code Quiz 📡
+          {t.welcome.title}
         </Text>
       </Box>
-      
+
       <Box marginBottom={1}>
-        <Text>Test your knowledge of HTTP status codes!</Text>
+        <Text>{t.welcome.subtitle}</Text>
       </Box>
 
       <SelectInput items={items} onSelect={handleSelect} />
+
+      <LanguageIndicator />
     </Box>
   );
 };
